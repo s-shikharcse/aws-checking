@@ -1,0 +1,38 @@
+#version: '1.9.0'
+
+docker_1:
+  image: model_1:python
+  volumes: 
+    - /home/shikhar/container_output:/result
+  #entrypoint: bash ~/StackRouteLab/assignment_multi_container/exploratory/exploratory_docker/script.sh
+  #command: "['/bin/sh', '-c', 'cd Docker-assignment-multi-container', 'python exploratory.py', 'cd ..', 'mkdir result', 'cp /Docker-assignment-multi-container/*.pkl /result']"
+  command: bash -c "cd Docker-assignment-multi-container ; python exploratory.py ; cd .. ; mkdir result ; cp /Docker-assignment-multi-container/*.pkl /result"
+  #entrypoint: bash exploratory_script.sh
+  #command: bash /result/exploratory_script.sh
+
+docker_2:
+  image: model_1:python
+  volumes: 
+    - /home/shikhar/container_output:/result
+  #entrypoint: bash ~/StackRouteLab/assignment_multi_container/model_1/script.sh
+  command: bash -c "cd Docker-assignment-multi-container ; git pull ; python model_1.py ; cd .. ; mkdir result ; cp /Docker-assignment-multi-container/model_1_score_file.pkl /result"
+  #entrypoint: bash model_1_script.sh
+  #command: bash /result/model_1_script.sh
+
+docker_3:
+  image: model_1:python
+  volumes: 
+    - /home/shikhar/container_output:/result
+  #entrypoint: bash ~/StackRouteLab/assignment_multi_container/output_docker/script.sh
+  command: bash -c "cd Docker-assignment-multi-container ; git pull ; python model_2.py ; cd .. ; mkdir result ; cp /Docker-assignment-multi-container/model_2_score_file.pkl /result"
+  #entrypoint: bash model_2_script.sh
+  #command: bash /result/model_2_script.sh
+
+docker_4:
+  image: model_1:python
+  volumes: 
+    - /home/shikhar/container_output:/result
+  #entrypoint: bash ~/StackRouteLab/assignment_multi_container/output/output_docker/script.sh  
+  command: bash -c "cd Docker-assignment-multi-container ; git pull ; python output.py ; cd .. ; mkdir result ; cp /Docker-assignment-multi-container/dataOn*.txt /result"
+  #entrypoint: bash output_script.sh
+  #command: bash /result/output_script.sh
